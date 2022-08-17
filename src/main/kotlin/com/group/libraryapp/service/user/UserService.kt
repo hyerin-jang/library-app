@@ -37,9 +37,6 @@ class UserService(
         val user = userRepository.findByIdOrNull(request.id) ?: fail()
 //        val user = userRepository.findByIdOrThrow(request.id)
         user.updateName(request.name)
-        user.name = request.name
-
-        user.userLoanHistory.add()
     }
 
     @Transactional

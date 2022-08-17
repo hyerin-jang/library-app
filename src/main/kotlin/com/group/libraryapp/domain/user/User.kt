@@ -13,10 +13,13 @@ import javax.persistence.OneToMany
 @Entity
 class User(
 
-    name: String,
+    var name: String,
+//    name: String,
 
     val age: Int?,
 
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    val userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
 //    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
 //    private val _userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
 
@@ -24,17 +27,17 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 ) {
-    var name = name
-        private set
+//    var name = name
+//        private set
 
 //    val userLoanHistories
 //        get() = _userLoanHistories.toList()
 
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
-    private val _userLoanHistories: MutableList<UserLoanHistory> = mutableListOf()
-
-    val userLoanHistory
-        get() = _userLoanHistories.toList()
+//    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+//    private val _userLoanHistories: MutableList<UserLoanHistory> = mutableListOf()
+//
+//    val userLoanHistory
+//        get() = _userLoanHistories.toList()
 
     init {
         if (name.isBlank()) {
@@ -47,10 +50,10 @@ class User(
     }
 
     fun loanBook(book: Book) {
-        this._userLoanHistories.add(UserLoanHistory(this, book.name, UserLoanStatus.LOANED))
+        this.userLoanHistories.add(UserLoanHistory(this, book.name, UserLoanStatus.LOANED))
     }
 
     fun returnBook(bookName: String) {
-        this._userLoanHistories.first { history -> history.bookName == bookName }.doReturn()
+        this.userLoanHistories.first { history -> history.bookName == bookName }.doReturn()
     }
 }

@@ -44,6 +44,19 @@ class UserServiceTest @Autowired constructor(
 
     @Test
     fun getUsersTest() {
+        // given
+        userRepository.saveAll(listOf(
+            User("A", 20),
+            User("B", null),
+        ))
+
+        // when
+        val results = userService.getUsers()
+
+        // then
+        assertThat(results).hasSize(2) // [UserResponse(), UserResponse()]
+        assertThat(results).extracting("name").containsExactlyInAnyOrder("A", "B") // ["A", "B"]
+        assertThat(results).extracting("age").containsExactlyInAnyOrder(20, null)
     }
 
     @Test

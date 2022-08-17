@@ -2,6 +2,7 @@ package com.group.libraryapp.domain.user
 
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
+import com.group.libraryapp.domain.user.loanhistory.UserLoanStatus
 import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -12,17 +13,28 @@ import javax.persistence.OneToMany
 @Entity
 class User(
 
-    var name: String,
+    name: String,
 
     val age: Int?,
 
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val userLoanHistory: MutableList<UserLoanHistory> = mutableListOf(),
+//    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+//    private val _userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 ) {
+    var name = name
+        private set
+
+//    val userLoanHistories
+//        get() = _userLoanHistories.toList()
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    private val _userLoanHistories: MutableList<UserLoanHistory> = mutableListOf()
+
+    val userLoanHistory
+        get() = _userLoanHistories.toList()
 
     init {
         if (name.isBlank()) {
@@ -35,10 +47,10 @@ class User(
     }
 
     fun loanBook(book: Book) {
-        this.userLoanHistory.add(UserLoanHistory(this, book.name, false))
+        this._userLoanHistories.add(UserLoanHistory(this, book.name, UserLoanStatus.LOANED))
     }
 
     fun returnBook(bookName: String) {
-        this.userLoanHistory.first { history -> history.bookName == bookName }.doReturn()
+        this._userLoanHistories.first { history -> history.bookName == bookName }.doReturn()
     }
 }

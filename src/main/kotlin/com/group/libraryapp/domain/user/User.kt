@@ -20,6 +20,7 @@ class User(
 
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
     val userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
+
 //    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
 //    private val _userLoanHistories: MutableList<UserLoanHistory> = mutableListOf(),
 

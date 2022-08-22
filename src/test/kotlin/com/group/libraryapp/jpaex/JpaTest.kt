@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
 import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 
@@ -46,7 +47,7 @@ class JpaTest @Autowired constructor(
 
         println(">> start")
 
-        val members = memberRepository.findAll()
+        memberRepository.findAll()
 
         println(">> end")
     }
@@ -77,6 +78,18 @@ class JpaTest @Autowired constructor(
         members.forEach { it.orders.size }
 
         println(">> end")
+    }
+
+    @Test
+    fun pagingTest() {
+
+        println(">> start");
+
+        val pageRequest: PageRequest = PageRequest.of(0, 2);
+//        memberRepository.findAllPage(pageRequest)
+        memberRepository.findAll(pageRequest)
+
+        println(">> end");
     }
 
 }

@@ -24,17 +24,23 @@ class BookService(
 ) {
 
     fun countLoanedBook(): Int {
-        return userLoanHistoryRepository.findAllByStatus(UserLoanStatus.LOANED).size
+        return userLoanHistoryRepository.countByStatus(UserLoanStatus.LOANED).toInt()
     }
 
     fun getBookStatistics(): List<BookStatResponse> {
-        val results = mutableListOf<BookStatResponse>()
-        val books = bookRepository.findAll()
-        for (book in books) {
-            results.firstOrNull { dto -> book.type == dto.type }?.plusOne()
-                ?: results.add(BookStatResponse(book.type, 1))
-        }
-        return results
+//        val results = mutableListOf<BookStatResponse>()
+//        val books = bookRepository.findAll()
+//        for (book in books) {
+//            results.firstOrNull { dto -> book.type == dto.type }?.plusOne()
+//                ?: results.add(BookStatResponse(book.type, 1))
+//        }
+//        return results
+
+//        return bookRepository.findAll()
+//            .groupBy { book -> book.type }
+//            .map { (type, books) -> BookStatResponse(type, books.size)}
+
+        return bookRepository.getStatus()
     }
 
     @Transactional

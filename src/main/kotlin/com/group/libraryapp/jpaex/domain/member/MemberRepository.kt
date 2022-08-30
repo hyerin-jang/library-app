@@ -25,6 +25,6 @@ interface MemberRepository : JpaRepository<Member, Long> {
     )
     fun findAllPage(pageable: Pageable): Page<Member>?
 
-    override fun findAll(pageable: Pageable): Page<Member>?
+    override fun findAll(pageable: Pageable): Page<Member>
 
 }

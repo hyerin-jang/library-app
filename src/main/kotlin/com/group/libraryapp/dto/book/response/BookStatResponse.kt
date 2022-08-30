@@ -4,14 +4,6 @@ import com.group.libraryapp.domain.book.BookType
 
 data class BookStatResponse(
     val type: BookType,
-<<<<<<< HEAD
-    val count: Long,
+
+    val count: Int,
 )
-=======
-    var count: Int,
-) {
-    fun plusOne() {
-        count++
-    }
-}
->>>>>>> origin/master
